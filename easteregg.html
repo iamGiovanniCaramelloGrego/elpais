@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easter Egg</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            padding: 50px;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            font-size: 18px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔎 Bem-vindo ao Easter Egg!</h1>
+    <p>Será que você consegue desbloquear o segredo? Tente digitar uma sequência especial no seu teclado, No celular, tente fazer um movimento misterioso.. 😏</p>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let konamiCode = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
+            let userInput = [];
+
+            document.addEventListener("keydown", function(event) {
+                userInput.push(event.key);
+
+                // Verifica se a sequência corresponde ao código secreto
+                if (userInput.slice(-konamiCode.length).join("") === konamiCode.join("")) {
+                    alert("🎉 Você desbloqueou o segredo! Redirecionando...");
+                    window.location.href = "secreto.html"; // Redireciona para a página secreta
+                }
+
+                // Limita o tamanho do array para evitar armazenar muitos inputs
+                if (userInput.length > konamiCode.length) {
+                    userInput.shift();
+                }
+                  // Detectar gestos na tela (para celular)
+            let startX, startY, endX, endY;
+            document.addEventListener("touchstart", function(event) {
+                startX = event.touches[0].clientX;
+                startY = event.touches[0].clientY;
+            });
+
+            document.addEventListener("touchend", function(event) {
+                endX = event.changedTouches[0].clientX;
+                endY = event.changedTouches[0].clientY;
+
+                let diffX = endX - startX;
+                let diffY = endY - startY;
+
+                if (Math.abs(diffX) > Math.abs(diffY)) {
+                    // Swipe para esquerda ou direita
+                    if (diffX > 50) userInput.push("right");
+                    if (diffX < -50) userInput.push("left");
+                } else {
+                    // Swipe para cima ou baixo
+                    if (diffY > 50) userInput.push("down");
+                    if (diffY < -50) userInput.push("up");
+                }
+
+                checkSequence();
+            });
+
+            // Detectar toques (para finalizar a sequência)
+            document.addEventListener("click", function() {
+                userInput.push("tap");
+                checkSequence();
+            });
+
+            function checkSequence() {
+                if (userInput.slice(-konamiCode.length).join("") === konamiCode.join("")) {
+                    alert("🎉 Você desbloqueou o segredo! Redirecionando...");
+                    window.location.href = "secreto.html"; // Redireciona para a página secreta
+                }
+
+                // Limita o tamanho do array para evitar armazenar muitos inputs
+                if (userInput.length > konamiCode.length) {
+                    userInput.shift();
+                }
+            }
+            });
+        });
+    </script>
+</body>
+</html>
