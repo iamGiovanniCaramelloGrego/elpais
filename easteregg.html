@@ -26,23 +26,17 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            let konamiCode = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
+            let konamiCode = ["up", "up", "down", "down", "left", "right", "left", "right", "b", "a"];
             let userInput = [];
 
+            // Detectar teclas no teclado (PC)
             document.addEventListener("keydown", function(event) {
-                userInput.push(event.key);
+                let key = event.key.replace("Arrow", "").toLowerCase();
+                userInput.push(key);
+                checkSequence();
+            });
 
-                // Verifica se a sequência corresponde ao código secreto
-                if (userInput.slice(-konamiCode.length).join("") === konamiCode.join("")) {
-                    alert("🎉 Você desbloqueou o segredo! Redirecionando...");
-                    window.location.href = "secreto.html"; // Redireciona para a página secreta
-                }
-
-                // Limita o tamanho do array para evitar armazenar muitos inputs
-                if (userInput.length > konamiCode.length) {
-                    userInput.shift();
-                }
-                  // Detectar gestos na tela (para celular)
+            // Detectar gestos na tela (celular)
             let startX, startY, endX, endY;
             document.addEventListener("touchstart", function(event) {
                 startX = event.touches[0].clientX;
@@ -57,11 +51,9 @@
                 let diffY = endY - startY;
 
                 if (Math.abs(diffX) > Math.abs(diffY)) {
-                    // Swipe para esquerda ou direita
                     if (diffX > 50) userInput.push("right");
                     if (diffX < -50) userInput.push("left");
                 } else {
-                    // Swipe para cima ou baixo
                     if (diffY > 50) userInput.push("down");
                     if (diffY < -50) userInput.push("up");
                 }
@@ -69,7 +61,7 @@
                 checkSequence();
             });
 
-            // Detectar toques (para finalizar a sequência)
+            // Detectar toques na tela
             document.addEventListener("click", function() {
                 userInput.push("tap");
                 checkSequence();
@@ -81,12 +73,10 @@
                     window.location.href = "secreto.html"; // Redireciona para a página secreta
                 }
 
-                // Limita o tamanho do array para evitar armazenar muitos inputs
                 if (userInput.length > konamiCode.length) {
                     userInput.shift();
                 }
             }
-            });
         });
     </script>
 </body>
