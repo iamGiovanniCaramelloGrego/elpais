@@ -2091,17 +2091,7 @@ section,
   margin: 10px 0 0 0;
 }
 .confira-button {
-  display: inline-block;
-  background: #2980b9;
-  color: white;
-  font-size: 18px;
-  font-weight: 600;
-  text-decoration: none;
-  padding: 12px 24px;
-  border-radius: 8px;
-  transition: 0.3s ease-in-out;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  color: blue;
 }
 
 .confira-button:hover {
