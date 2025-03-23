@@ -22,22 +22,24 @@
 </head>
 <body>
     <h1>🔎 Bem-vindo ao Easter Egg!</h1>
-    <p>Será que você consegue desbloquear o segredo? Tente digitar uma sequência especial no seu teclado, No celular, tente fazer um movimento misterioso.. 😏</p>
+    <p>No PC, digite a sequência secreta no teclado. No celular, deslize na tela na ordem correta. 🤫</p>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             let konamiCode = ["up", "up", "down", "down", "left", "right", "left", "right", "b", "a"];
+            let touchCode = ["up", "up", "down", "down", "left", "right", "left", "right", "tap", "tap"];
             let userInput = [];
 
             // Detectar teclas no teclado (PC)
             document.addEventListener("keydown", function(event) {
                 let key = event.key.replace("Arrow", "").toLowerCase();
                 userInput.push(key);
-                checkSequence();
+                checkSequence(konamiCode);
             });
 
             // Detectar gestos na tela (celular)
-            let startX, startY, endX, endY;
+            let startX = 0, startY = 0, endX = 0, endY = 0;
+
             document.addEventListener("touchstart", function(event) {
                 startX = event.touches[0].clientX;
                 startY = event.touches[0].clientY;
@@ -58,22 +60,24 @@
                     if (diffY < -50) userInput.push("up");
                 }
 
-                checkSequence();
+                checkSequence(touchCode);
             });
 
             // Detectar toques na tela
             document.addEventListener("click", function() {
                 userInput.push("tap");
-                checkSequence();
+                checkSequence(touchCode);
             });
 
-            function checkSequence() {
-                if (userInput.slice(-konamiCode.length).join("") === konamiCode.join("")) {
+            function checkSequence(code) {
+                console.log("Sequência digitada:", userInput.join(", "));
+
+                if (userInput.slice(-code.length).join("") === code.join("")) {
                     alert("🎉 Você desbloqueou o segredo! Redirecionando...");
                     window.location.href = "secreto.html"; // Redireciona para a página secreta
                 }
 
-                if (userInput.length > konamiCode.length) {
+                if (userInput.length > code.length) {
                     userInput.shift();
                 }
             }
